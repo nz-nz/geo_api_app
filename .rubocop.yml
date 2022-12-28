@@ -1,0 +1,36 @@
+require: rubocop-rails
+
+AllCops:
+  TargetRubyVersion: 3.1.1
+  NewCops: enable
+
+Metrics/MethodLength:
+  Max: 40
+  CountAsOne: ["array", "hash", "heredoc"]
+
+Style/Documentation:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 200
+
+Layout/EmptyLinesAroundAccessModifier:
+  EnforcedStyle: only_before
+
+# to intend private methods
+Layout/IndentationConsistency:
+  EnforcedStyle: indented_internal_methods
+
+Metrics/BlockLength:
+  Exclude:
+    - config/initializers/**/*
+    - config/routes.rb
+    - lib/tasks/*
+    - spec/**/*
+
