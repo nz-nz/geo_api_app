@@ -2,7 +2,9 @@
 
 Rails.application.routes.draw do
   controller :geolocations do
+    get '/geolocation/:address', action: 'show', constraints: { address: %r{[^/]+} }
     post '/geolocation', action: 'create'
+    delete '/geolocation/:address', action: 'destroy', constraints: { address: %r{[^/]+} }
   end
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
