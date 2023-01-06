@@ -5,6 +5,12 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.1'
 
+gem 'dotenv-rails'
+gem 'faraday'
+gem 'multi_json'
+gem 'trailblazer', '>= 2.1.0'
+gem 'trailblazer-rails'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.4'
 gem 'rswag-api'
