@@ -1,0 +1,31 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: admin
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - './pgdata:/var/lib/postgresql/data/pgdata'
+  web:
+    depends_on:
+      - 'postgres'
+    build:
+      context: .
+      dockerfile: Dockerfile.development
+    command: bash -c "rm -rf tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0 -p 3000"
+    ports:
+      - '${DOCKER_HOST_WEB_PORT:-3000}:3000'
+    volumes:
+      - 'bundle_cache:/bundle'
+      - '.:/app'
+      - .env:/app/.env
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DISABLE_SPRING: 1
+
+volumes:
+  postgres:
+  bundle_cache:
