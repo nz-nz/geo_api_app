@@ -4,7 +4,7 @@ class GeolocationsController < ApplicationController
   # POST /geolocation
   # create or update geolocation
   def create
-    address = URI.encode_www_form_component(geolocation_params[:address].to_s.strip.downcase)
+    address = handle_address geolocation_params[:address]
     # render json: handle_error(address), status: :unprocessable_entity and return
     if address.blank?
       render json: handle_error('The Address supplied is empty.'), status: :unprocessable_entity
@@ -33,6 +33,10 @@ class GeolocationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def geolocation_params
       params.permit(:address)
+    end
+
+    def handle_address(address)
+      URI.encode_www_form_component(address.to_s.strip.downcase)
     end
 
     def handle_error(message)
