@@ -5,7 +5,6 @@ class GeolocationsController < ApplicationController
   # create or update geolocation
   def create
     address = handle_address geolocation_params[:address]
-    # render json: handle_error(address), status: :unprocessable_entity and return
     if address.blank?
       render json: handle_error('The Address supplied is empty.'), status: :unprocessable_entity
       return
