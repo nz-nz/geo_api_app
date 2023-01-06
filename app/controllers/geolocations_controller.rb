@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class GeolocationsController < ApplicationController
+  before_action :authorize_request
   before_action :set_geolocation, only: %i[show destroy]
 
   # GET /geolocation/1
