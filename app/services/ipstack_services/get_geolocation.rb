@@ -34,7 +34,7 @@ module IpstackServices
         return false
       end
 
-      IpstackServices::GeolocationPresenter.new(data).to_json
+      IpstackServices::GeolocationPresenter.new(data).to_hash
     rescue Faraday::Error, JSON::ParserError => e
       log_error e.message
       false
