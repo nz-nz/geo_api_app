@@ -39,6 +39,13 @@ class GeolocationsController < ApplicationController
     end
   end
 
+  # DELETE /geolocation/1
+  def destroy
+    render json: handle_error('Not found.'), status: :not_found and return if @geolocation.blank?
+
+    @geolocation.destroy
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_geolocation
