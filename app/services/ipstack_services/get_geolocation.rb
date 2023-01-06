@@ -16,6 +16,10 @@ module IpstackServices
         Rails.logger.error "ERROR##{self.class}: #{message}"
       end
 
+      def handle_error(message)
+        { success: false, error: message }.with_indifferent_access
+      end
+
     public
 
     def call
@@ -24,20 +28,22 @@ module IpstackServices
       response = Faraday.get(url, { access_key: api_key })
 
       unless response.success?
-        log_error "response failure: #{response.body}"
-        return false
+        log_error "Response failure: #{response.body}"
+        return handle_error('External service error.')
       end
 
       data = JSON.parse(response.body)
       if data['error'].present?
         log_error "api error: #{data['error']}"
-        return false
+        return handle_error(data['error']['info'])
       end
 
-      IpstackServices::GeolocationPresenter.new(data).to_hash
+      return handle_error(data['detail']) if data['detail'].present?
+
+      { success: true, payload: IpstackServices::GeolocationPresenter.new(data).to_hash }.with_indifferent_access
     rescue Faraday::Error, JSON::ParserError => e
       log_error e.message
-      false
+      handle_error('External service error.')
     end
   end
 end
