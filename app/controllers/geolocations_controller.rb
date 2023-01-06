@@ -1,6 +1,17 @@
 # frozen_string_literal: true
 
 class GeolocationsController < ApplicationController
+  before_action :set_geolocation, only: %i[show destroy]
+
+  # GET /geolocation/1
+  def show
+    if @geolocation.blank?
+      render json: handle_error('Not found.'), status: :not_found
+    else
+      render json: GeolocationPresenter.new(@geolocation).to_json
+    end
+  end
+
   # POST /geolocation
   # create or update geolocation
   def create
@@ -29,6 +40,12 @@ class GeolocationsController < ApplicationController
   end
 
   private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_geolocation
+      address = handle_address params[:address]
+      @geolocation = Geolocation.find_by(address:)
+    end
+
     # Only allow a list of trusted parameters through.
     def geolocation_params
       params.permit(:address)
