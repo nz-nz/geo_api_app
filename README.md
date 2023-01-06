@@ -5,6 +5,7 @@
 ```bash
 bin/setup_docker.sh
 ```
+copy GEO_DATA_PROVIDER_API_KEY to .env file
 
 #### Run tests script
   
@@ -13,7 +14,6 @@ bin/tests.sh
 ```
 
 #### Launching local server
-copy GEO_DATA_PROVIDER_API_KEY to .env file
 
 ```bash
 docker-compose up
